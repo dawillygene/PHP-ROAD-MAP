@@ -18,7 +18,7 @@ $number = 5;
 
 function myTest(){
 
-    echo "<p>Variable number is : $number </p>";
+    // echo "<p>Variable number is : $number </p>";
 
 }
 
