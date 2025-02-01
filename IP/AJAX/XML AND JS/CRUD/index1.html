@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CRUD with Ajax (XMLHttpRequest)</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    form, .buttons { margin: 20px; }
+    input { margin: 5px; }
+    #responseOutput { margin: 20px; border: 1px solid #ccc; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h3>CRUD Demonstration with Ajax</h3>
+
+  
+  <form id="userForm">
+    <input type="hidden" id="userId" name="id" value="">
+    <input type="text" id="userName" name="name" placeholder="Name" required>
+    <input type="email" id="userEmail" name="email" placeholder="Email" required>
+    <input type="text" id="userPhone" name="phone" placeholder="Phone" required>
+    <input type="button" value="Create/Update" onclick="createOrUpdateUser();">
+    <input type="button" value="Clear" onclick="clearForm();">
+  </form>
+
+  <div class="buttons">
+    <input type="button" value="Read Users" onclick="readUsers();">
+    <input type="button" value="Delete User" onclick="deleteUser();">
+  </div>
+
+
+  <div id="responseOutput">Response will appear here.</div>
+
+  <script>
+    
+    function createRequest() {
+      return new XMLHttpRequest();
+    }
+
+  function createOrUpdateUser(){
+    var id = document.getElementById("userId").value;
+    var name = document.getElementById("userName").value;
+    var email = document.getElementById('userEmail').value;
+    var phone = document.getElementById("userPhone").value;
+
+    var action = (id == "") ? "create" : "update";
+
+
+  var params = "action="+action+"&name="+encodeURIComponent(name)+
+             "&email="+encodeURIComponent(email)+
+             "&phone="+encodeURIComponent(phone);
+     if(action === "update"){
+        params+="&id"+encodeURIComponent(id);
+     }
+      
+    
+    
+   var request = createRequest();
+   request.open("POST","crud.php?" + params,true);
+   request.onreadystatechange = function(){
+
+    if(request.readyState == 4 && request.status==200){
+        document.getElementById("responseOutput").innerHTML = request.responseText;
+    }
+};
+request.send();
+  }
+
+
+  function readUsers(){
+    var xhr = createRequest();
+    xhr.open("GET", "crud.php?action=readjson", true);
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState === 4 && xhr.status === 200){
+            var users = JSON.parse(xhr.responseText);
+            var output = "";
+            for (var i = 0; i < users.length; i++){
+                output += "ID: " + users[i].id + " - Name: " + users[i].name + 
+                          " - Email: " + users[i].email + " - Phone: " + users[i].phone + "<br>";
+            }
+            document.getElementById("responseOutput").innerHTML = output;
+        }
+    };
+    xhr.send();
+}
+
+function readUserse(){
+    var xhr = createRequest();
+    xhr.open("GET","crud.php?action=readjson",true);
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState == 4 && xhr.status == 200){
+            document.getElementById("responseOutput").innerHTML = xhr.responseText;
+        }
+    };
+    xhr.send();
+}
+
+
+function deleteUser(){
+    
+    var id = prompt("Enter the User ID to delete: ");
+
+    if (id === null || id.trim() === ""){
+        return;
+    }
+
+    var req = createRequest();
+
+    req.open("POST","crud.php?action=delete&id="+encodeURIComponent(id),true);
+
+    req.onreadystatechange = function(){
+        if(req.readyState == 4 && req.status === 200){
+            document.getElementById("responseOutput").innerHTML = req.responseText;
+        }
+    };
+    req.send();
+}
+
+
+
+function clearForm(){
+      document.getElementById("userId").value = "";
+      document.getElementById("userName").value = "";
+      document.getElementById("userEmail").value = "";
+      document.getElementById("userPhone").value = "";
+}
+ 
+
+
+
+
+
+
+   
+  </script>
+</body>
+</html>

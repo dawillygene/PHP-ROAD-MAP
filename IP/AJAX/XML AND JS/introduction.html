@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>HTML FORM</title>
+</head>
+<body>
+  <h3>Demonstration of Ajax</h3>
+  <form name="f1" method="get" action="">
+    <input type="button" name="btn1" value="Click" onclick="sendRequest();" />
+  </form>
+
+  <div id="responseOutput">Hello</div>
+
+  <script>
+   function sendRequest(){
+
+
+    const request = new XMLHttpRequest();
+    request.open("GET","date.php",true);
+    request.send();
+    request.onreadystatechange = function(){
+    if(request.readyState == 4 && request.status == 200){
+        document.getElementById("responseOutput").innerHTML = request.responseText;
+    }
+    }
+   }
+  </script>
+</body>
+</html>

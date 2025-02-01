@@ -1,0 +1,27 @@
+<html>
+<head>
+  <title>HTML FORM</title>
+</head>
+<body>
+  <h3>Demonstration of Ajax</h3>
+  <form name="f1" method="get" action="">
+    <input type="button" name="btn1" value="Click" onclick="sendRequest();" />
+  </form>
+
+  <div id="responseOutput">Hello</div>
+
+  <script>
+    function sendRequest(){
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function(){
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("responseOutput").innerHTML = this.responseText;
+        }
+      };
+
+      xhttp.open("GET", "http://localhost/PHP%20CODING/IP/AJAX/XML%20AND%20JS/date.php", true);
+      xhttp.send();
+    }
+  </script>
+</body>
+</html>
