@@ -8,12 +8,17 @@ $conn= $con->connection();
 $user = new User($con->connection());
 
 
- $action = isset($_GET['action']) ? $_GET['action'] : '';
+ $action = isset($_GET['action']) ? $_GET['action'] : $_POST['action'];
  
  switch($action) {
  
     case 'create':
-       $user->create($_GET['name'],$_GET['email'],$_GET['phone']);
+        if($_POST['action'] == "create"){
+            $user->create($_POST['name'],$_POST['email'],$_POST['phone']);
+        }else{
+            $user->create($_GET['name'],$_GET['email'],$_GET['phone']);
+        }
+    
          break;
 
     case 'readjson':
@@ -37,7 +42,9 @@ $user = new User($con->connection());
          break;
  
     case 'delete':
-        $user->delete(intval($_GET['id']));
+        if($_POST['action'] == "delete"){
+        $user->delete(intval($_POST['id']));
+    }
          break;
  
      default:

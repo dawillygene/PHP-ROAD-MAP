@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CRUD with Ajax (jQuery)</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        form,
+        .buttons {
+            margin: 20px;
+        }
+        
+        input {
+            margin: 5px;
+        }
+        
+        #responseOutput {
+            margin: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>CRUD Demonstration with Ajax using jQuery</h3>
+
+
+    <form id="userForm">
+        <input type="hidden" id="userId" name="id" value="">
+        <input type="text" id="userName" name="name" placeholder="Name" required>
+        <input type="email" id="userEmail" name="email" placeholder="Email" required>
+        <input type="text" id="userPhone" name="phone" placeholder="Phone" required>
+        <input type="button" value="Create/Update" id="createOrUpdateBtn">
+        <input type="button" value="Clear" id="clearBtn">
+    </form>
+
+
+    <div class="buttons">
+        <input type="button" value="Read Users" id="readUsersBtn">
+        <input type="button" value="Delete User" id="deleteUserBtn">
+    </div>
+
+
+    <div id="responseOutput">Response will appear here.</div>
+
+    <script>
+        $(document).ready(function() {
+
+
+            $("#createOrUpdateBtn").click(function() {
+                var id = $("#userId").val();
+                var name = $("#userName").val();
+                var email = $("#userEmail").val();
+                var phone = $("#userPhone").val();
+                var action = (id === "") ? "create" : "update";
+
+                var data = {
+                    action: action,
+                    name: name,
+                    email: email,
+                    phone: phone
+                };
+
+                if (action === "update") {
+                    data.id = id;
+                }
+
+
+
+                $.ajax({
+                    url: "crud.php",
+                    method: "POST",
+                    data: data,
+                    success: function(response) {
+                        $("#responseOutput").html(response);
+                        clearForm();
+                    },
+                    error: function(xhr, status, error) {
+                        $("#responseOutput").html("Error: " + error);
+                    }
+                });
+            });
+
+
+
+
+            $("#readUsersBtn").click(function() {
+                $.ajax({
+                    url: "crud.php",
+                    method: "GET",
+                    data: {
+                        action: "readjson"
+                    },
+                    dataType: "json",
+                    success: function(users) {
+                        var output = "";
+                        $.each(users, function(index, user) {
+                            output += "ID: " + user.id + " - Name: " + user.name +
+                                " - Email: " + user.email + " - Phone: " + user.phone + "<br>";
+                        });
+                        $("#responseOutput").html(output);
+                    },
+                    error: function(xhr, status, error) {
+                        $("#responseOutput").html("Error: " + error);
+                    }
+                });
+            });
+
+
+            $("#deleteUserBtn").click(function() {
+                var id = prompt("Enter the User ID to delete:");
+                if (id === null || $.trim(id) === "") {
+                    return;
+                }
+
+                $.ajax({
+                    url: "crud.php",
+                    method: "POST",
+                    data: {
+                        action: "delete",
+                        id: id
+                    },
+                    success: function(response) {
+                        $("#responseOutput").html(response);
+                    },
+                    error: function(xhr, status, error) {
+                        $("#responseOutput").html("Error: " + error);
+                    }
+                });
+            });
+
+
+            $("#clearBtn").click(function() {
+                clearForm();
+            });
+
+
+            function clearForm() {
+                $("#userId, #userName, #userEmail, #userPhone").val("");
+            }
+        });
+    </script>
+</body>
+
+</html>
