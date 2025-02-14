@@ -26,11 +26,16 @@ if ($method == "POST") {
     $json_data = file_get_contents("php://input");
     $data = json_decode($json_data, true); 
 
+
+ 
+
+
     // Check if all required fields exist
     if (!isset($data['username'], $data['email'], $data['password'])) {
         echo json_encode(["status" => "error", "message" => "Missing required fields"]);
         exit;
     }
+    
 
     // Sanitize inputs
     $username = sanitize($conn, $data['username']);

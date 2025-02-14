@@ -73,7 +73,6 @@
 
             document.getElementById("save").addEventListener("click", function (e) {
                 e.preventDefault();
-
                 const name = document.getElementById("username").value;
                 const email = document.getElementById("email").value;
                 const password = document.getElementById("password").value;

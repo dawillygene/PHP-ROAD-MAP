@@ -1,7 +1,4 @@
 <?php
-// Back-end API endpoint: https://library.example.com/api/books
-
-// Simulate a database of books
 $books = [
     [
         "title" => "Kufa Kuzikana",

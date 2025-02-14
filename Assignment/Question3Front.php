@@ -9,11 +9,11 @@
 
 <body>
     <h1>List of available books</h1>
-    <button onclick="fetchBooks()">Get available books</button>
+    <button onclick="fetch_Books()">Get available books</button>
     <div id="bookDisplay"></div>
 
     <script>
-        function fetchBooks() {
+        function fetch_Books() {
             const url = "https://library.example.com/api/books";
             const xhr = new XMLHttpRequest();
             xhr.open("POST", url, true);

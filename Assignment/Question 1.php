@@ -1,5 +1,4 @@
 <?php
-// Define the Product class
 class Product {
     public $name;
     public $description;
