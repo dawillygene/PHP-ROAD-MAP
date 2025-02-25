@@ -55,6 +55,56 @@
             xhr.send(body);
         }
     </script>
+
+
+<script>
+  function fetch_Books() {
+    // Append query parameters to the URL as GET doesn't support a request body.
+    const url = "https://library.example.com/api/books?requester=library_user&action=fetch_books";
+    const xhr = new XMLHttpRequest();
+    
+    // Use GET method instead of POST
+    xhr.open("GET", url, true);
+    
+    // Set the Authorization header; Content-Type header is not needed for GET requests
+    xhr.setRequestHeader("Authorization", "Bearer LibraryBearerToken123");
+
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          const data = JSON.parse(xhr.responseText);
+          if (data.success) {
+            const booklist = document.getElementById("bookDisplay");
+            booklist.innerHTML = "";
+            data.books.forEach(book => {
+              const itembook = document.createElement("div");
+              itembook.innerHTML = `
+                <h3>${book.title}</h3>
+                <p><strong>Author:</strong> ${book.author}</p>
+                <p><strong>Genre:</strong> ${book.genre}</p>
+                <p><strong>Year:</strong> ${book.year}</p>
+                <p><strong>ISBN:</strong> ${book.isbn}</p>
+                <hr>
+              `;
+              booklist.appendChild(itembook);
+            });
+          } else {
+            alert(data.message);
+          }
+        } else {
+          alert("Error has emerged: " + xhr.status);
+        }
+      }
+    };
+
+    // For GET requests, there is no body to send.
+    xhr.send();
+  }
+</script>
+
+
+
+
 </body>
 
 </html>

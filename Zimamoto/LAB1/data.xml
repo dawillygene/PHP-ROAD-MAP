@@ -1,0 +1,24 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<collegedata>
+<department category = "CSE">
+<subjects lang = "en">Java</subjects>
+<name>Zamaradi</name>
+<age>23</age>
+<marks>90</marks>
+<address>240 Mwanza</address>
+</department>
+<department category = "ETE">
+<subjects lang = "en">Wave Propagation</subjects>
+<name>Seleman</name>
+<age>26</age>
+<marks>69</marks>
+<address>890 Tanga</address>
+</department>
+<department category = "IST">
+<subjects lang = "en">Introduction to IT</subjects>
+<name>Otimbi</name>
+<age>25</age>
+<marks>78</marks>
+<address>65 Arusha</address>
+</department>
+</collegedata>

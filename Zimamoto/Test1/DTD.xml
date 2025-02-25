@@ -1,0 +1,9 @@
+<!DOCTYPE restaurants[
+<!ELEMENT restaurants (restaurant*)>
+<!ELEMENT restaurant (address, owner, phoneno)>
+<!ATTLIST restaurant name CDATA #REQUIRED>
+<!ELEMENT address (#PCDATA)>
+<!ELEMENT owner (#PCDATA)>
+<!ELEMENT phoneno (#PCDATA)>
+
+]
